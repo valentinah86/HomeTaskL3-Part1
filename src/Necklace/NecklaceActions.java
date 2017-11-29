@@ -3,7 +3,9 @@ package Necklace;
 
 
 
-import CustomErrors.ApplicationErrors;
+import CustomErrors.ElementNotFound;
+import CustomErrors.IncorrectCountOfStones;
+import CustomErrors.InvalidStonePrice;
 import Stones.Stone;
 import Stones.StoneGenerator;
 
@@ -15,7 +17,7 @@ import java.util.Comparator;
 public class NecklaceActions {
 
 
-    public Necklace createNecklace (Necklace necklace, int countOfStones) throws ApplicationErrors {
+    public Necklace createNecklace (Necklace necklace, int countOfStones) throws ElementNotFound, IncorrectCountOfStones {
 
         if (countOfStones >0){
 
@@ -27,7 +29,7 @@ public class NecklaceActions {
             }
             necklace.setStonesList(stonesList);
         }
-        else { throw new ApplicationErrors("Count of stones cannot be less than 1");
+        else { throw new IncorrectCountOfStones("Count of stones cannot be less than 1");
 
         }
 
@@ -75,7 +77,7 @@ public class NecklaceActions {
     }
 
 
-    public ArrayList<Stone> findStoneByGemCut(String gemCuttingType, ArrayList<Stone> stonesList) throws ApplicationErrors {
+    public ArrayList<Stone> findStoneByGemCut(String gemCuttingType, ArrayList<Stone> stonesList) throws ElementNotFound {
 
         ArrayList<Stone> filteredStoneList = new ArrayList<>();
         for (Stone stone : stonesList) {
@@ -86,12 +88,12 @@ public class NecklaceActions {
 
         }
         if (filteredStoneList.size() == 0) {
-            throw new ApplicationErrors("Requested Gem Cut is absent in collection");
+            throw new ElementNotFound("Requested Gem Cut is absent in collection");
         }
         return filteredStoneList;
     }
 
-    public ArrayList<Stone> findStoneByPriceDiapazone (double priceA, double priceB, ArrayList<Stone> stonesList) {
+    public ArrayList<Stone> findStoneByPriceDiapazone (double priceA, double priceB, ArrayList<Stone> stonesList) throws InvalidStonePrice {
 
         ArrayList<Stone> filteredStoneList = new ArrayList<>();
         if (priceA > 0 && priceB > 0) {
@@ -104,15 +106,15 @@ public class NecklaceActions {
 
         } else {
             try {
-                throw new ApplicationErrors("Stone price cannot be null or negative");
-            } catch (ApplicationErrors applicationErrors) {
-                applicationErrors.printStackTrace();
+                throw new InvalidStonePrice("Stone price cannot be null or negative");
+            } catch (InvalidStonePrice invalidStonePrice) {
+                invalidStonePrice.printStackTrace();
             }
         }
         return filteredStoneList;
     }
 
-    public ArrayList<Stone> filterByClarity (String clarity, ArrayList<Stone> stonesList) throws ApplicationErrors {
+    public ArrayList<Stone> filterByClarity (String clarity, ArrayList<Stone> stonesList) throws ElementNotFound {
         ArrayList<Stone> filteredList = new ArrayList<>();
 
         for (Stone stone: stonesList){
@@ -123,7 +125,7 @@ public class NecklaceActions {
 
         }
         if (filteredList.size()==0){
-            throw new ApplicationErrors("Requested Gem Cut is absent in current collection");
+            throw new ElementNotFound("Requested Gem Cut is absent in current collection");
         }
 
          return filteredList;

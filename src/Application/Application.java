@@ -1,6 +1,8 @@
 package Application;
 
-import CustomErrors.ApplicationErrors;
+import CustomErrors.ElementNotFound;
+import CustomErrors.IncorrectCountOfStones;
+import CustomErrors.InvalidStonePrice;
 import Necklace.Necklace;
 import Necklace.NecklaceActions;
 import Stones.StoneParameters.ClarityType;
@@ -15,7 +17,7 @@ import java.util.Scanner;
 public class Application {
 
 
-    public static void main(String[] args) throws ApplicationErrors, FileNotFoundException {
+    public static void main(String[] args) throws ElementNotFound, FileNotFoundException, IncorrectCountOfStones, InvalidStonePrice {
 
 
         Necklace necklace = new Necklace();
@@ -43,7 +45,7 @@ public class Application {
                 System.out.println("\n Necklace Weight = " + String.format("%.2f",necklaceActions.calculateStoneWeight(necklace.getList())));
                 System.out.println("\n Necklace Price = " + String.format("%.2f",necklaceActions.calculateStonesPrice(necklace.getList())));
             } catch (NumberFormatException e) {
-                throw new ApplicationErrors("Incorrect number", e);
+                throw new IncorrectCountOfStones("Incorrect number of stones");
             }
         }
 
